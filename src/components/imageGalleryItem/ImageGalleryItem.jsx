@@ -1,11 +1,9 @@
-import React from 'react';
-
-export const ImageGalleryItem = () => {
+export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags }) => {
   return (
     <li>
       <img
-        src=''
-        alt=''
+        src={webformatURL}
+        alt={tags}
       />
     </li>
   );
