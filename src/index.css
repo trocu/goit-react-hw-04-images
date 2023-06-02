@@ -7,6 +7,18 @@
   background-color: #f8f9fb;
 }
 
+html {
+  box-sizing: border-box;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 h1,
 h2,
 h3,
@@ -25,6 +37,7 @@ ol {
 }
 
 img {
+  display: block;
   max-width: 100%;
   height: auto;
 }

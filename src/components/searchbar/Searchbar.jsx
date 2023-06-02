@@ -9,14 +9,14 @@ export default class Searchbar extends Component {
   handleChange = e => {
     e.preventDefault();
     const { value } = e.target;
-    console.log('Change value: ', value);
+    // console.log('Change value: ', value);
     this.setState({ query: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const { query } = this.state;
-    console.log('Submit query: ', query);
+    // console.log('Searchbar handleSubmit query: ', query);
     this.props.onSubmit(query);
     this.setState({ query: '' });
   };
