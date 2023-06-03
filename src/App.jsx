@@ -5,6 +5,7 @@ import fetchPictures from './utils/fetchPictures';
 import Searchbar from './components/searchbar/Searchbar';
 import { ImageGallery } from './components/imageGallery/ImageGallery';
 import { Button } from './components/button/Button';
+import Modal from './components/modal/Modal';
 
 // axios.defaults.baseURL = 'https://pixabay.com/api/';
 
@@ -31,6 +32,7 @@ export default class App extends Component {
     error: null,
     totalHits: 0,
     hitsCounter: 0,
+    show: false,
   };
 
   async componentDidMount() {
@@ -67,7 +69,6 @@ export default class App extends Component {
     this.setState({ query });
     console.log('App hadleSubmit query: ', query);
     console.log('App handleSubmit state: ', this.state);
-    this.handleQuery();
   };
 
   handleQuery = async () => {
@@ -83,8 +84,8 @@ export default class App extends Component {
       totalHits: pictures.totalHits,
       hitsCounter: pictures.hits.length,
     });
-    console.log('typeOf: ', typeof pictures);
-    console.log('handleQuery: ', gallery);
+    // console.log('typeOf: ', typeof pictures);
+    // console.log('handleQuery: ', gallery);
   };
 
   handleLoadMoreFetch = async () => {
@@ -108,6 +109,11 @@ export default class App extends Component {
     console.log('PAGE: ', this.state.page);
   };
 
+  showModal = () => {
+    this.setState({ show: true });
+    console.log('SHOW MODAL');
+  };
+
   render() {
     // console.log('Render state: ', this.state);
     console.log('Render state PAGE: ', this.state.page);
@@ -116,7 +122,7 @@ export default class App extends Component {
     const { isLoading, gallery, error, totalHits, hitsCounter } = this.state;
     // let loadMoreButton = null;
     // if (gallery.length === 0) {
-    //   return;
+    //   return null;
     // } else if (totalHits > hitsCounter) {
     //   loadMoreButton = <Button loadMore={this.handleLoadMore} />;
     // }
@@ -136,6 +142,13 @@ export default class App extends Component {
         {gallery.length > 0 && <ImageGallery gallery={gallery} />}
         {gallery.length > 0 && totalHits > hitsCounter && <Button loadMore={this.handleLoadMore} />}
         {/* <div>{loadMoreButton}</div> */}
+        <button
+          type='button'
+          onClick={this.showModal}
+        >
+          Show Modal
+        </button>
+        <Modal show={this.state.show} />
       </>
     );
   }

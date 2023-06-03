@@ -7,7 +7,7 @@ export default class Searchbar extends Component {
   };
 
   handleChange = e => {
-    e.preventDefault();
+    // e.preventDefault();
     const { value } = e.target;
     // console.log('Change value: ', value);
     this.setState({ query: value });
