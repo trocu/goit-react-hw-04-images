@@ -1,7 +1,7 @@
 import css from './ImageGallery.module.css';
 import { ImageGalleryItem } from '../imageGalleryItem/ImageGalleryItem';
 
-export const ImageGallery = ({ gallery }) => {
+export const ImageGallery = ({ gallery, callback }) => {
   return (
     <ul className={css.gallery}>
       {gallery.map(({ id, webformatURL, largeImageURL, tags }) => (
@@ -10,6 +10,7 @@ export const ImageGallery = ({ gallery }) => {
           webformatURL={webformatURL}
           largeImageURL={largeImageURL}
           tags={tags}
+          callback={callback}
         />
       ))}
     </ul>

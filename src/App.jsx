@@ -32,7 +32,9 @@ export default class App extends Component {
     error: null,
     totalHits: 0,
     hitsCounter: 0,
-    show: false,
+    isVisible: false,
+    picture: '',
+    alt: '',
   };
 
   async componentDidMount() {
@@ -57,7 +59,7 @@ export default class App extends Component {
       console.log('componentDidUpdate query: ', this.state.query);
       this.handleQuery();
     }
-    if (prevState.page !== this.state.page) {
+    if (prevState.query === this.state.query && prevState.page !== this.state.page) {
       console.log('componentDidUpdate PAGE: ', this.state.page);
       this.handleLoadMoreFetch();
     }
@@ -66,7 +68,7 @@ export default class App extends Component {
 
   handleSubmit = query => {
     // const { query } = this.state;
-    this.setState({ query });
+    this.setState({ query, page: 1 });
     console.log('App hadleSubmit query: ', query);
     console.log('App handleSubmit state: ', this.state);
   };
@@ -75,7 +77,7 @@ export default class App extends Component {
     const { query, page } = this.state;
     // console.log('Handle query: ', this.state);
     // console.log('Handle query: ', query);
-    this.setState({ isLoading: true, page: 1 });
+    this.setState({ isLoading: true });
     const pictures = await fetchPictures.restApi(query, page);
 
     this.setState({
@@ -109,9 +111,13 @@ export default class App extends Component {
     console.log('PAGE: ', this.state.page);
   };
 
-  showModal = () => {
-    this.setState({ show: true });
-    console.log('SHOW MODAL');
+  showModal = (picture, alt) => {
+    this.setState({ isVisible: true, picture, alt });
+    console.log('SHOW MODAL: ', picture, alt);
+  };
+
+  closeModal = () => {
+    this.setState({ isVisible: false });
   };
 
   render() {
@@ -119,7 +125,8 @@ export default class App extends Component {
     console.log('Render state PAGE: ', this.state.page);
     console.log('Render state query: ', this.state.query);
     console.log('Render state gallery: ', this.state.gallery);
-    const { isLoading, gallery, error, totalHits, hitsCounter } = this.state;
+    const { isLoading, gallery, error, totalHits, hitsCounter, isVisible, picture, alt } =
+      this.state;
     // let loadMoreButton = null;
     // if (gallery.length === 0) {
     //   return null;
@@ -139,17 +146,33 @@ export default class App extends Component {
             visible={true}
           />
         )}
-        {gallery.length > 0 && <ImageGallery gallery={gallery} />}
+        {gallery.length > 0 && (
+          <ImageGallery
+            gallery={gallery}
+            callback={this.showModal}
+          />
+        )}
         {gallery.length > 0 && totalHits > hitsCounter && <Button loadMore={this.handleLoadMore} />}
         {/* <div>{loadMoreButton}</div> */}
-        <button
+        {/* <button
           type='button'
           onClick={this.showModal}
         >
           Show Modal
-        </button>
-        <Modal show={this.state.show} />
+        </button> */}
+        <Modal
+          onClick={this.closeModal}
+          isVisible={isVisible}
+          picture={picture}
+          alt={alt}
+        />
       </>
     );
   }
 }
+
+/*
+Do poprawy zmiana page przy nowym query. 
+W tej chwili najpierw wysyla zapytanie o page 2, 
+a pozniej o page 1, ale wrzuca galerie z page 2
+*/
