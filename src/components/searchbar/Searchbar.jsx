@@ -1,6 +1,8 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import css from './Searchbar.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 export default class Searchbar extends Component {
   state = {
@@ -37,15 +39,10 @@ export default class Searchbar extends Component {
             placeholder='Search images and photos'
           />
           <button type='submit'>
-            <svg
-              width='12'
-              height='12'
-            >
-              <use
-                href='/icons.svg#icon-glass-bolder'
-                className='logo'
-              ></use>
-            </svg>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ color: '#feffff' }}
+            />
           </button>
         </form>
       </header>
