@@ -20,23 +20,6 @@ export default class App extends Component {
     alt: '',
   };
 
-  async componentDidMount() {
-    const { query, page } = this.state;
-    this.setState({ isLoading: true });
-    try {
-      const pictures = await fetchPictures.restApi(query, page);
-      this.setState({
-        gallery: pictures.hits,
-        totalHits: pictures.totalHits,
-        hitsCounter: pictures.hits.length,
-      });
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (prevState.query !== this.state.query) {
       this.handleQuery();
@@ -53,14 +36,18 @@ export default class App extends Component {
   handleQuery = async () => {
     const { query, page } = this.state;
     this.setState({ isLoading: true });
-    const pictures = await fetchPictures.restApi(query, page);
-
-    this.setState({
-      gallery: pictures.hits,
-      isLoading: false,
-      totalHits: pictures.totalHits,
-      hitsCounter: pictures.hits.length,
-    });
+    try {
+      const pictures = await fetchPictures.restApi(query, page);
+      this.setState({
+        gallery: pictures.hits,
+        totalHits: pictures.totalHits,
+        hitsCounter: pictures.hits.length,
+      });
+    } catch (error) {
+      this.setState({ error });
+    } finally {
+      this.setState({ isLoading: false });
+    }
   };
 
   handleLoadMoreFetch = async () => {
@@ -93,13 +80,13 @@ export default class App extends Component {
       <>
         <Searchbar onSubmit={this.handleSubmit} />
         {error && <p>Whoops, something went wrong: {error.message}</p>}
-        {isLoading && <Loader />}
         {gallery.length > 0 && (
           <ImageGallery
             gallery={gallery}
             onClickCallback={this.showModal}
           />
         )}
+        {isLoading && <Loader />}
         {gallery.length > 0 && totalHits > hitsCounter && <Button loadMore={this.handleLoadMore} />}
         <Modal
           onClick={this.closeModal}
