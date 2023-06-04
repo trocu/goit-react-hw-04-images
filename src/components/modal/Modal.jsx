@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 export default class Modal extends Component {
@@ -21,7 +22,6 @@ export default class Modal extends Component {
     if (!isVisible) {
       return null;
     }
-    console.log('modal data: ', picture);
     return (
       <div
         className={css.overlay}
@@ -39,3 +39,10 @@ export default class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  picture: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};

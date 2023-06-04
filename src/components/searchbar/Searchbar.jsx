@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import css from './Searchbar.module.css';
 
 export default class Searchbar extends Component {
@@ -7,16 +8,13 @@ export default class Searchbar extends Component {
   };
 
   handleChange = e => {
-    // e.preventDefault();
     const { value } = e.target;
-    // console.log('Change value: ', value);
     this.setState({ query: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const { query } = this.state;
-    // console.log('Searchbar handleSubmit query: ', query);
     this.props.onSubmit(query);
     this.setState({ query: '' });
   };
@@ -29,15 +27,7 @@ export default class Searchbar extends Component {
           className={css.form}
           onSubmit={this.handleSubmit}
         >
-          <button
-            type='submit'
-            className={css.button}
-          >
-            <span className={css.button_label}>Search</span>
-          </button>
-
           <input
-            className={css.input}
             type='text'
             name='query'
             value={query}
@@ -46,8 +36,21 @@ export default class Searchbar extends Component {
             autoFocus
             placeholder='Search images and photos'
           />
+          <button type='submit'>
+            <svg
+              width='12'
+              height='12'
+            >
+              <use
+                href='/icons.svg#icon-glass-bolder'
+                className='logo'
+              ></use>
+            </svg>
+          </button>
         </form>
       </header>
     );
   }
 }
+
+Searchbar.propTypes = { onSubmit: PropTypes.func.isRequired };

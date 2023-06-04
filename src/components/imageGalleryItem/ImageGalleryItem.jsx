@@ -1,10 +1,9 @@
+import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
-export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, callback }) => {
+export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, onClickCallback }) => {
   const showModal = () => {
-    // console.log({ largeImageURL });
-    // const data = { largeImageURL };
-    callback(largeImageURL, tags);
+    onClickCallback(largeImageURL, tags);
   };
 
   return (
@@ -19,4 +18,11 @@ export const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, callback }
       />
     </li>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onClickCallback: PropTypes.func.isRequired,
 };

@@ -14,7 +14,6 @@ const restApi = async (query, page) => {
       page: `${page}`,
     },
   };
-  console.log('fetchPictures PAGE: ', page);
   const response = await axios(axiosParams);
   return response.data;
 };
