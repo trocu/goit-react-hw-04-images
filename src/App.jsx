@@ -15,7 +15,7 @@ export default class App extends Component {
     error: null,
     totalHits: 0,
     hitsCounter: 0,
-    isVisible: false,
+    isModalVisible: false,
     picture: '',
     alt: '',
   };
@@ -66,15 +66,15 @@ export default class App extends Component {
   };
 
   showModal = (picture, alt) => {
-    this.setState({ isVisible: true, picture, alt });
+    this.setState({ isModalVisible: true, picture, alt });
   };
 
   closeModal = () => {
-    this.setState({ isVisible: false });
+    this.setState({ isModalVisible: false });
   };
 
   render() {
-    const { isLoading, gallery, error, totalHits, hitsCounter, isVisible, picture, alt } =
+    const { isLoading, gallery, error, totalHits, hitsCounter, isModalVisible, picture, alt } =
       this.state;
     return (
       <>
@@ -88,12 +88,13 @@ export default class App extends Component {
         )}
         {isLoading && <Loader />}
         {gallery.length > 0 && totalHits > hitsCounter && <Button loadMore={this.handleLoadMore} />}
-        <Modal
-          onClick={this.closeModal}
-          isVisible={isVisible}
-          picture={picture}
-          alt={alt}
-        />
+        {isModalVisible && (
+          <Modal
+            onClick={this.closeModal}
+            picture={picture}
+            alt={alt}
+          />
+        )}
       </>
     );
   }

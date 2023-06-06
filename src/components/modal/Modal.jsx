@@ -3,9 +3,25 @@ import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 export default class Modal extends Component {
+  state = {
+    isCaptionVisible: 'none',
+  };
+
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyPress);
+    this.timerID = setTimeout(() => {
+      this.showCaption();
+    }, 1000);
   }
+
+  componentWillUnmount() {
+    clearTimeout(this.timerID);
+    document.removeEventListener('keydown', this.handleKeyPress);
+  }
+
+  showCaption = () => {
+    this.setState({ isCaptionVisible: 'block' });
+  };
 
   handleKeyPress = e => {
     if (e.code === 'Escape') {
@@ -15,13 +31,12 @@ export default class Modal extends Component {
 
   closeModal = () => {
     this.props.onClick();
+    this.setState({ isCaptionVisible: 'none' });
   };
 
   render() {
-    const { isVisible, picture, alt } = this.props;
-    if (!isVisible) {
-      return null;
-    }
+    const { picture, alt } = this.props;
+    const { isCaptionVisible } = this.state;
     return (
       <div
         className={css.overlay}
@@ -33,7 +48,12 @@ export default class Modal extends Component {
             src={picture}
             alt={alt}
           />
-          <p className={css.caption}>{alt}</p>
+          <p
+            className={css.caption}
+            style={{ display: isCaptionVisible }}
+          >
+            {alt}
+          </p>
         </div>
       </div>
     );
@@ -42,7 +62,7 @@ export default class Modal extends Component {
 
 Modal.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isVisible: PropTypes.bool.isRequired,
+  isModalVisible: PropTypes.bool.isRequired,
   picture: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 };
