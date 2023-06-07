@@ -62,7 +62,6 @@ export default class Modal extends Component {
 
 Modal.propTypes = {
   onClick: PropTypes.func.isRequired,
-  isModalVisible: PropTypes.bool.isRequired,
   picture: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
 };
