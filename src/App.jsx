@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import fetchPictures from './utils/fetchPictures';
-import Searchbar from './components/searchbar/Searchbar';
+import { Searchbar } from './components/searchbar/Searchbar';
 import { ImageGallery } from './components/imageGallery/ImageGallery';
 import { Button } from './components/button/Button';
-import Modal from './components/modal/Modal';
+import { Modal } from './components/modal/Modal';
 import { Loader } from './components/loader/Loader';
 
 export const App = () => {

@@ -1,64 +1,57 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
-export default class Modal extends Component {
-  state = {
-    isCaptionVisible: 'none',
-  };
+export const Modal = ({ onClick, picture, alt }) => {
+  const [isCaptionVisible, setIsCaptionVisible] = useState('none');
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyPress);
-    this.timerID = setTimeout(() => {
-      this.showCaption();
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    const timerID = setTimeout(() => {
+      showCaption();
     }, 1000);
-  }
+    return () => {
+      clearTimeout(timerID);
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  });
 
-  componentWillUnmount() {
-    clearTimeout(this.timerID);
-    document.removeEventListener('keydown', this.handleKeyPress);
-  }
-
-  showCaption = () => {
-    this.setState({ isCaptionVisible: 'block' });
+  const showCaption = () => {
+    setIsCaptionVisible('block');
   };
 
-  handleKeyPress = e => {
+  const handleKeyPress = e => {
     if (e.code === 'Escape') {
-      this.closeModal();
+      closeModal();
     }
   };
 
-  closeModal = () => {
-    this.props.onClick();
-    this.setState({ isCaptionVisible: 'none' });
+  const closeModal = () => {
+    onClick();
+    setIsCaptionVisible('none');
   };
 
-  render() {
-    const { picture, alt } = this.props;
-    const { isCaptionVisible } = this.state;
-    return (
-      <div
-        className={css.overlay}
-        onClick={this.closeModal}
-      >
-        <div className={css.modal}>
-          <img
-            className={css.picture}
-            src={picture}
-            alt={alt}
-          />
-          <p
-            className={css.caption}
-            style={{ display: isCaptionVisible }}
-          >
-            {alt}
-          </p>
-        </div>
+  return (
+    <div
+      className={css.overlay}
+      onClick={closeModal}
+    >
+      <div className={css.modal}>
+        <img
+          className={css.picture}
+          src={picture}
+          alt={alt}
+        />
+        <p
+          className={css.caption}
+          style={{ display: isCaptionVisible }}
+        >
+          {alt}
+        </p>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Modal.propTypes = {
   onClick: PropTypes.func.isRequired,
