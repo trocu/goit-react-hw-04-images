@@ -18,18 +18,6 @@ export const App = () => {
   const [picture, setPicture] = useState('');
   const [alt, setAlt] = useState('');
 
-  // useEffect(() => {
-  //   if (query.length > 0) {
-  //     handleQuery();
-  //   }
-  // }, [query]);
-
-  // useEffect(() => {
-  //   if (page > 1) {
-  //     handleLoadMoreFetch();
-  //   }
-  // }, [page]);
-
   const handleSubmit = query => {
     setQuery(query);
     setGallery([]);
@@ -62,20 +50,6 @@ export const App = () => {
     }
   }, [query, page, shouldFetchData]);
 
-  // const handleQuery = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const pictures = await fetchPictures.restApi(query, page);
-  //     setGallery(pictures.hits);
-  //     setTotalHits(pictures.totalHits);
-  //     setHitsCounter(pictures.hits.length);
-  //   } catch (error) {
-  //     setError(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   const loadMoreRef = useRef(null);
   const shouldLoadMore = useRef(false);
 
@@ -94,14 +68,6 @@ export const App = () => {
       handleLoadMoreFetch();
     }
   }, [gallery, hitsCounter, query, page, shouldLoadMore]);
-
-  // const handleLoadMoreFetch = async () => {
-  //   setIsLoading(true);
-  //   const pictures = await fetchPictures.restApi(query, page);
-  //   setGallery([...gallery, ...pictures.hits]);
-  //   setIsLoading(false);
-  //   setHitsCounter(hitsCounter + pictures.hits.length);
-  // };
 
   const handleLoadMore = () => {
     setPage(page + 1);

@@ -4,37 +4,35 @@ import css from './Modal.module.css';
 
 export const Modal = ({ onClick, picture, alt }) => {
   const [isCaptionVisible, setIsCaptionVisible] = useState('none');
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
   useEffect(() => {
+    const handleKeyPress = e => {
+      if (e.code === 'Escape') {
+        setIsModalVisible(false);
+      }
+    };
+
     document.addEventListener('keydown', handleKeyPress);
     const timerID = setTimeout(() => {
-      showCaption();
+      setIsCaptionVisible('block');
     }, 1000);
     return () => {
       clearTimeout(timerID);
       document.removeEventListener('keydown', handleKeyPress);
     };
-  });
+  }, []);
 
-  const showCaption = () => {
-    setIsCaptionVisible('block');
-  };
-
-  const handleKeyPress = e => {
-    if (e.code === 'Escape') {
-      closeModal();
+  useEffect(() => {
+    if (!isModalVisible) {
+      onClick();
     }
-  };
-
-  const closeModal = () => {
-    onClick();
-    setIsCaptionVisible('none');
-  };
+  }, [isModalVisible, onClick]);
 
   return (
     <div
       className={css.overlay}
-      onClick={closeModal}
+      onClick={onClick}
     >
       <div className={css.modal}>
         <img
