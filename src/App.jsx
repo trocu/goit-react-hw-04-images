@@ -25,7 +25,6 @@ export const App = () => {
     shouldFetchData.current = true;
   };
 
-  const picturesRef = useRef(null);
   const shouldFetchData = useRef(false);
 
   useEffect(() => {
@@ -33,8 +32,7 @@ export const App = () => {
       setIsLoading(true);
       try {
         const pictures = await fetchPictures.restApi(query, page);
-        picturesRef.current = pictures;
-        const { hits, totalHits } = picturesRef.current;
+        const { hits, totalHits } = pictures;
         setGallery(hits);
         setTotalHits(totalHits);
         setHitsCounter(hits.length);
@@ -50,15 +48,13 @@ export const App = () => {
     }
   }, [query, page, shouldFetchData]);
 
-  const loadMoreRef = useRef(null);
   const shouldLoadMore = useRef(false);
 
   useEffect(() => {
     const handleLoadMoreFetch = async () => {
       setIsLoading(true);
       const pictures = await fetchPictures.restApi(query, page);
-      loadMoreRef.current = pictures;
-      const { hits } = loadMoreRef.current;
+      const { hits } = pictures;
       setGallery([...gallery, ...hits]);
       setIsLoading(false);
       setHitsCounter(hitsCounter + hits.length);
